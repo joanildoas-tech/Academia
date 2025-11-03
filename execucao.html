@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execução do Exercício</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .cards {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .card input {
+            width: 60px;
+            padding: 5px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Card de carga */
+        .card-carga {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Card de séries */
+        .card-series {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Timer */
+        #timer {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Descanso */
+        #descansoContainer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Séries boxes */
+        .series-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .serie-box {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .serie-box.done {
+            background: #4caf50;
+        }
+
+        /* Botões */
+        #feitoBtn, #voltarBtn {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #feitoBtn {
+            background: #ff7e5f;
+            color: #fff;
+        }
+        #feitoBtn:hover {
+            background: #feb47b;
+        }
+
+        #voltarBtn {
+            background: #888;
+            color: #fff;
+        }
+        #voltarBtn:hover {
+            background: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Nome do exercício -->
+    <h1 id="nomeExercicio">Exercício</h1>
+
+    <!-- Timer de execução -->
+    <div id="timer">
+        Tempo total do treino: <span id="timerGeral">00:00</span>
+    </div>
+
+    <!-- Cards de repetição, carga e séries -->
+    <div class="cards">
+        <div class="card">
+            <label>Repetições:</label>
+            <input type="number" id="reps" value="10">
+        </div>
+
+        <div class="card card-carga">
+            <h3>Carga</h3>
+            <input type="number" id="peso" value="10"> kg
+        </div>
+
+        <div class="card card-series">
+            <h3>Séries</h3>
+            <input type="number" id="series" value="3">
+        </div>
+    </div>
+
+    <!-- Caixas de acompanhamento das séries -->
+    <h2>Séries</h2>
+    <div id="seriesContainer" class="series-container"></div>
+
+    <!-- Descanso -->
+    <div id="descansoContainer">
+        <label>Descanso (segundos): </label>
+        <input type="number" id="descanso" value="60">
+        <div id="descansoTimer">60s</div>
+    </div>
+
+    <!-- Botões -->
+    <div style="text-align:center;">
+        <button id="feitoBtn">Realizado</button>
+        <button id="voltarBtn">Voltar para exercícios</button>
+    </div>
+
+    <script>
+        // ====== Obter parâmetros da URL ======
+        const urlParams = new URLSearchParams(window.location.search);
+        const exercicioNome = urlParams.get('exercicio') || "Exercício";
+        const treino = urlParams.get('treino') || "A"; // padrão A
+
+        // Atualiza o nome do exercício
+        document.getElementById('nomeExercicio').textContent = exercicioNome;
+
+        // ====== Botão Voltar ======
+        document.getElementById('voltarBtn').addEventListener('click', () => {
+            window.location.href = `treino${treino}.html`;
+        });
+
+        
+
+        // ====== Séries ======
+        document.addEventListener('DOMContentLoaded', () => {
+            const seriesInput = document.getElementById('series');
+            const seriesContainer = document.getElementById('seriesContainer');
+            let currentSerie = 0;
+
+            function desenharSeries() {
+                seriesContainer.innerHTML = '';
+                const totalSeries = Number(seriesInput.value) || 1;
+                for(let i=0;i<totalSeries;i++){
+                    const div = document.createElement('div');
+                    div.classList.add('serie-box');
+                    seriesContainer.appendChild(div);
+                }
+                currentSerie = 0;
+            }
+
+            seriesInput.addEventListener('change', desenharSeries);
+            desenharSeries();
+
+            // Botão Realizado
+            document.getElementById('feitoBtn').addEventListener('click', () => {
+                const boxes = document.querySelectorAll('.serie-box');
+                if(currentSerie < boxes.length){
+                    boxes[currentSerie].classList.add('done');
+                    currentSerie++;
+                }
+
+                
+
+                // Timer de descanso
+                let descansoSeg = Number(document.getElementById('descanso').value) || 60;
+                let restante = descansoSeg;
+                document.getElementById('descansoTimer').textContent = `${restante}s`;
+                let descansoInterval = setInterval(() => {
+                    restante--;
+                    document.getElementById('descansoTimer').textContent = `${restante}s`;
+                    if(restante <=0) clearInterval(descansoInterval);
+                },1000);
+            });
+
+            // Timer geral persistente
+                let savedTime = parseInt(localStorage.getItem('tempoTreino')) || 0;
+                function atualizarTimerGeral() {
+                    const min = String(Math.floor(savedTime/60)).padStart(2,'0');
+                    const sec = String(savedTime%60).padStart(2,'0');
+                    document.getElementById('timerGeral').textContent = `${min}:${sec}`;
+                }
+                atualizarTimerGeral();
+                setInterval(()=>{
+                    savedTime++;
+                    localStorage.setItem('tempoTreino', savedTime);
+                    atualizarTimerGeral();
+                },1000);
+        });
+    </script>
+
+</body>
+</html>

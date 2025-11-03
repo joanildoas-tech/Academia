@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.container { max-width: 600px; margin: auto; }
+.card { background: #fff; padding: 15px; border-radius: 10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:15px; text-align:center; }
+.card a { text-decoration: none; color: #333; font-weight: bold; }
+h1, h2 { text-align:center; }
+.timer { font-size:1.5rem; margin-bottom:15px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Academia</h1>
+    <div class="timer">
+        Tempo total do treino: <span id="timerGeral">00:00</span>
+    </div>
+    <div style="display: flex;flex-direction: column;align-items: center;">
+    <div class="card"><a href="treinoA.html">Treino A</a></div>
+    <div class="card"><a href="treinoB.html">Treino B</a></div>
+    <div class="card"><a href="treinoC.html">Treino C</a></div>
+    </div>
+</div>
+
+<script>
+// Timer geral persistente
+let savedTime = parseInt(localStorage.getItem('tempoTreino')) || 0;
+function atualizarTimerGeral() {
+    const min = String(Math.floor(savedTime/60)).padStart(2,'0');
+    const sec = String(savedTime%60).padStart(2,'0');
+    document.getElementById('timerGeral').textContent = `${min}:${sec}`;
+}
+atualizarTimerGeral();
+setInterval(()=>{
+    savedTime++;
+    localStorage.setItem('tempoTreino', savedTime);
+    atualizarTimerGeral();
+},1000);
+</script>
+</body>
+</html>
