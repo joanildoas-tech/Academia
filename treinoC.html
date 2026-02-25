@@ -4,88 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Treino C</title>
-<link rel="stylesheet" href="style.css">
-<style>
-.container {
-    max-width: 600px;
-    margin: auto;
-}
-
-.cards {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    align-items: center;
-    
-}
-
-.card {
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-    font-weight: bold;
-}
-
-.card a {
-    text-decoration: none;
-    color: #333;
-}
-
-.button {
-    display: block;
-    width: 20%;
-    padding: 12px;
-    margin-top: 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #888;
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-}
-
-.button:hover {
-    background: #555;
-}
-</style>
+<link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-   
 <div class="container">
     <h1>Treino C</h1>
-        <div style="display: flex;justify-content: center;">
+    <div style="display: flex; justify-content: center;">
         <label>Tempo total do treino: </label> 
         <div id="timerGeral">00:00</div>
-        </div>
-    <div class="cards">
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Puxada+Alta+Articulada">Puxada Alta Articulada</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Puxados+com+Triangulo">Puxados com Triângulo</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Remada+Baixa+Neutra">Remada Baixa Neutra</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Crucifixo+Inverso">Crucifixo Inverso</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Rosca+com+Barra">Rosca com Barra</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Rosca+Alternada">Rosca Alternada</a></div>
-        <div class="card"><a href="execucao.html?treino=C&exercicio=Rosca+Inversa+com+Barra+W">Rosca Inversa com Barra W</a></div>
     </div>
-    <a href="index.html" class="button">Voltar</a>
+    <div class="cards">
+        
+        <div class="card">
+            <a href="execucao.html?treino=C&exercicio=Puxada%20Frontal">Puxada Frontal</a>
+        </div>
+        
+        <div class="card">
+            <a href="execucao.html?treino=C&exercicio=Remada%20Baixa">Remada Baixa</a>
+        </div>
+        
+        <div class="card">
+            <a href="execucao.html?treino=C&exercicio=Rosca%20Direta">Rosca Direta</a>
+        </div>
+        
+        <div class="card">
+            <a href="execucao.html?treino=C&exercicio=Rosca%20Martelo">Rosca Martelo</a>
+        </div>
+        
+        <div class="card">
+            <a href="execucao.html?treino=C&exercicio=Encolhimento">Encolhimento</a>
+        </div>
+        
+   <div class="button-container">
+    <a href="index.html">
+        <button id="voltarBtn" class="btn-voltar">
+            🔙 Voltar
+        </button>
+    </a>
+    </div>
 </div>
-<script>
-let savedTime = parseInt(localStorage.getItem('tempoTreino')) || 0;
-function atualizarTimerGeral() {
-    const min = String(Math.floor(savedTime/60)).padStart(2,'0');
-    const sec = String(savedTime%60).padStart(2,'0');
-    document.getElementById('timerGeral').textContent = `${min}:${sec}`;
-}
-atualizarTimerGeral();
-setInterval(() => {
-    savedTime++;
-    localStorage.setItem('tempoTreino', savedTime);
-    atualizarTimerGeral();
-},1000);
-</script>
+<script src="static/script.js"></script>
 </body>
 </html>
