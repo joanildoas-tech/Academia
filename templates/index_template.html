@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia</title>
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Academia</h1>
+    <div class="timer">
+        Tempo total do treino: <span id="timerGeral">00:00</span>
+    </div>
+    <div style="text-align:center; margin-top:15px;">
+        <button id="resetTimerBtn" class="button">Zerar Timer</button>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top:20px;gap:15px;">
+        {% for treino_id in treinos %}
+        <div class="card"><a href="treino{{ treino_id }}.html">Treino {{ treino_id }}</a></div>
+        {% endfor %}
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
