@@ -191,6 +191,7 @@ h2 {
 .button-container {
     display: flex;
     justify-content: center; /* centraliza horizontalmente */
+    gap:15px;
     margin-top: 25px;        /* espaço entre os cards e o botão */
 }
 
